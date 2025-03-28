@@ -46,6 +46,9 @@ INTERNAL_IPS = [
     "127.0.0.1", "https://socialmediaapp-1-zfpx.onrender.com",
 ]
 
+TAILWIND_CSS_FILE = "theme/static/css/dist/styles.css"
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
