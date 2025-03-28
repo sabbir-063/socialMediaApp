@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 ]
 
 # NPM_BIN_PATH = "C:/Users/Administrator/AppData/Roaming/npm/npm.cmd"
-NPM_BIN_PATH = "/usr/bin/npm"
+NPM_BIN_PATH = "/usr/local/bin/npm"
 
 
 TAILWIND_APP_NAME = 'theme'
@@ -147,7 +147,12 @@ USE_TZ = True
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+
+if DEBUG:
+    STATICFILES_DIRS = [BASE_DIR / 'static']
+else:
+    STATICFILES_DIRS = []
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
