@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 ]
 
 # NPM_BIN_PATH = "C:/Users/Administrator/AppData/Roaming/npm/npm.cmd"
-NPM_BIN_PATH = "/usr/local/bin/npm"
+NPM_BIN_PATH = "/usr/bin/npm"
 
 
 TAILWIND_APP_NAME = 'theme'
