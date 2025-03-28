@@ -1,1 +1,1 @@
-web: python manage.py tailwind build && gunicorn socialMediaApp.wsgi --log-file -
+web: python manage.py tailwind build && python manage.py collectstatic --noinput && gunicorn socialMediaApp.wsgi --log-file -
