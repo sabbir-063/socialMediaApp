@@ -1,0 +1,49 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>{% block title %}SocialMedia{% endblock %}</title>
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-100">
+    
+    <!-- Navbar -->
+    <nav class="bg-gray-900 text-white p-4 flex justify-between">
+        <a href="/" class="text-lg font-bold">SocialMedia</a>
+        <div>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'profile' request.user.username %}" class="px-4">Profile</a>
+                <a href="{% url 'logout' %}" class="px-4">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="px-4">Login</a>
+                <a href="{% url 'signup' %}" class="px-4">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container mx-auto mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="bg-{{ message.tags }}-100 border border-{{ message.tags }}-400 text-{{ message.tags }}-700 px-4 py-3 rounded relative mb-4">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Page Content -->
+    <div class="container mx-auto p-6">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center p-4 mt-8">
+        <p>&copy; 2025 SocialMedia. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

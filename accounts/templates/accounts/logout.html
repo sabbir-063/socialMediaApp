@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Logout - SocialMedia{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 shadow-md rounded-lg text-center">
+    <h2 class="text-xl font-bold">Are you sure you want to log out?</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg mt-4">Logout</button>
+    </form>
+    <a href="{% url 'home' %}" class="block mt-4 text-blue-500">Cancel</a>
+</div>
+{% endblock %}

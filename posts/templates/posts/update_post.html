@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Update Post{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+    <h2 class="text-xl font-bold mb-4">Edit Post</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        {% comment %} <textarea name="content" class="w-full p-2 border rounded-lg" rows="4" required>{{ post.content }}</textarea> {% endcomment %}
+
+        {% comment %} {% if post.image %}
+        <div class="mt-4">
+            <img src="{{ post.image.url }}" alt="Post Image" class="w-full rounded-lg mb-2">
+            <label class="flex items-center">
+                <input type="checkbox" name="remove_image" class="mr-2"> Remove Image
+            </label>
+        </div>
+        {% endif %} {% endcomment %}
+
+        <div class="flex justify-between mt-4">
+            <a href="{% url 'home' %}" class="bg-gray-400 text-white px-4 py-2 rounded-lg">Cancel</a>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Update</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

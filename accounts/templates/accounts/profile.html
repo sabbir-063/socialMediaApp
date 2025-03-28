@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user_profile.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+    <div class="flex items-center space-x-4">
+       <img src="{{ user_profile.profile_image.url }}" alt="Profile Image" class="w-20 h-20 rounded-full">
+        <div>
+            <h2 class="text-xl font-bold">{{ user_profile.username }}</h2>
+            <p class="text-gray-600">{{ user_profile.bio }}</p>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        {% if request.user != user_profile %}
+            {% if is_following %}
+                <a href="{% url 'unfollow_user' user_profile.username %}" class="bg-red-500 text-white px-4 py-2 rounded-lg">Unfollow</a>
+            {% else %}
+                <a href="{% url 'follow_user' user_profile.username %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Follow</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="mt-6">
+        <p class="text-gray-700"><strong>Followers:</strong> {{ user_profile.followers.count }}</p>
+        <p class="text-gray-700"><strong>Following:</strong> {{ user_profile.following.count }}</p>
+    </div>
+</div>
+{% endblock %}

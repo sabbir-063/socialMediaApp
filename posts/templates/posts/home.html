@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-0">
+    
+    <!-- Create Post -->
+    <div class="bg-white p-4 shadow-md rounded-lg mb-4">
+        <div class="flex items-center space-x-3">
+            <img src="{{ request.user.profile_image.url }}" class="w-10 h-10 rounded-full">
+            <a href="{% url 'create_post' %}" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full w-full text-left">What's on your mind, {{ request.user.username }}?</a>
+        </div>
+    </div>
+
+    <!-- Posts List -->
+    {% for post in posts %}
+    <div class="bg-white p-4 shadow-md rounded-lg mb-4 relative">
+        
+        <!-- Post Header -->
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="{{ post.user.profile_image.url }}" class="w-10 h-10 rounded-full">
+                <div>
+                    <p class="font-bold">{{ post.user.username }}</p>
+                    <p class="text-gray-500 text-sm">{{ post.created_at|date:"M d, Y H:i" }}</p>
+                </div>
+            </div>
+
+            <!-- Edit/Delete Icons -->
+            {% if post.user == request.user %}
+            <div class="flex space-x-2">
+                <a href="{% url 'update_post' post.id %}" class="text-gray-600 hover:text-gray-900">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </a>
+                <form action="{% url 'delete_post' post.id %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-600 hover:text-red-900">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Post Content -->
+        <p class="text-gray-700 mt-2">{{ post.content }}</p>
+        {% if post.image %}
+        <img src="{{ post.image.url }}" class="w-full rounded-lg mt-2">
+        {% endif %}
+
+        <!-- Like Button -->
+        <div class="mt-3 flex items-center space-x-2">
+            <button onclick="toggleLike({{ post.id }})">
+                {% if request.user in post.likes.all %}
+                    ❤️
+                {% else %}
+                    🤍
+                {% endif %}
+            </button>
+            <span id="like-count-{{ post.id }}">
+                {% if post.total_likes > 0 %}
+                    {{ post.total_likes }} likes
+                {% else %}
+                    No likes
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function toggleLike(postId) {
+        fetch(`/like/${postId}/`, {  // Make sure this matches your `urls.py`
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCSRFToken(),
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let likeButton = document.getElementById(`like-button-${postId}`);
+            let likeCount = document.getElementById(`like-count-${postId}`);
+    
+            if (!likeButton || !likeCount) {
+                console.error("Like button or count element not found!");
+                return;
+            }
+    
+            likeButton.innerHTML = data.liked ? "❤️" : "🤍";
+            likeCount.innerHTML = data.total_likes > 0 ? `${data.total_likes} likes` : "No likes";
+        })
+        .catch(error => console.error("Error:", error));
+    }
+    
+    // Get CSRF token function
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }    
+    
+</script>
+{% endblock %}
