@@ -40,10 +40,11 @@ INSTALLED_APPS = [
 ]
 
 NPM_BIN_PATH = "C:/Users/Administrator/AppData/Roaming/npm/npm.cmd"
+
 TAILWIND_APP_NAME = 'theme'
 
 INTERNAL_IPS = [
-    "127.0.0.1", "https://socialmediaapp-1-zfpx.onrender.com",
+    "*"
 ]
 
 TAILWIND_CSS_FILE = "theme/static/css/dist/styles.css"
